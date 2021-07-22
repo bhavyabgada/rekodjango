@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls',
+    'posts',
 ]
 
 MIDDLEWARE = [
@@ -56,8 +57,8 @@ ROOT_URLCONF = 'djangoProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [str(BASE_DIR.joinpath('templates'))],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,5 +128,12 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# MEDIA_URL = '/image/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, '/image/media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AWS_ACCESS_KEY_ID = 'AKIA4ZEOEZRCFOOYZSOC'
+AWS_SECRET_ACCESS_KEY = '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'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'reko-django'
+AWS_S3_REGION_NAME = 'ap-south-1'
+AWS_S3_ADDRESSING_STYLE = "virtual"
