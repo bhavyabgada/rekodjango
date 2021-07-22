@@ -8,7 +8,41 @@
 
 <h2>{{ request.title }}</h2>
     <img src="{{ request.cover.url}}" alt="{{ request.title }}">
-{{ labels }}<br>
-{{ text }}
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for tag in labels %}
+    <tr>
+        <td>{{ tag.Name }}</td>
+        <td>{{ tag.Confidence }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<br>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for tag in text %}
+    <tr>
+        <td>{{ tag.DetectedText }}</td>
+        <td>{{ tag.Confidence }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
 </body>
 </html>
