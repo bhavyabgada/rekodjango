@@ -1,6 +1,7 @@
-<h1>Create Post Page</h1>
+<h1>Upload Image here:</h1>
+<h3>Note: Write image title with full and correct extension. eg: image.png</h3>
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Submit New Post</button>
+  <button type="submit">Upload Image</button>
 </form>

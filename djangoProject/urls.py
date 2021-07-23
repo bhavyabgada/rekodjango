@@ -22,11 +22,8 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    # path('', include('home.urls', namespace="home")),
     path('admin/', admin.site.urls),
-    path('polls/', include('polls.urls', namespace="polls")),
     path('', include('posts.urls')),
-    # path('image/', include('image.urls', namespace="image")),
     url(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}),
     url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 ]

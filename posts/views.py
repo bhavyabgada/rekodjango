@@ -1,21 +1,13 @@
-import json
-
-from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView  # new
-from django.urls import reverse_lazy  # new
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
 import boto3
 from djangoProject import settings as s
-from .forms import PostForm  # new
+from .forms import PostForm
 from .models import Post
 
 
-class HomePageView(ListView):
-    model = Post
-    template_name = 'home.html'
-
-
-class CreatePostView(CreateView):  # new
+class CreatePostView(CreateView):
     model = Post
     form_class = PostForm
     template_name = 'post.html'
@@ -23,19 +15,17 @@ class CreatePostView(CreateView):  # new
 
 
 def Reko(request):
-    latest_questions = Post.objects.last()
-    # with open(latest_questions, 'rb') as source_image:
-    #     source_bytes = source_image.read()
+    image = Post.objects.last()
     client = boto3.client('rekognition', aws_access_key_id=s.AWS_ACCESS_KEY_ID,
                           aws_secret_access_key=s.AWS_SECRET_ACCESS_KEY, region_name=s.AWS_S3_REGION_NAME)
     labels = client.detect_labels(
-        Image={'S3Object': {'Bucket': s.AWS_STORAGE_BUCKET_NAME, 'Name': 'images/' + latest_questions.title + '.jpeg'}},
+        Image={'S3Object': {'Bucket': s.AWS_STORAGE_BUCKET_NAME, 'Name': 'images/' + image.title}},
         MinConfidence=65)
     text = client.detect_text(
-        Image={'S3Object': {'Bucket': s.AWS_STORAGE_BUCKET_NAME, 'Name': 'images/' + latest_questions.title + '.jpeg'}},
+        Image={'S3Object': {'Bucket': s.AWS_STORAGE_BUCKET_NAME, 'Name': 'images/' + image.title}},
         Filters={
             'WordFilter': {
                 'MinConfidence': 65
             }, })
     return render(request, 'reko.html',
-                  {'request': latest_questions, 'labels': labels['Labels'], 'text': text['TextDetections']})
+                  {'request': image, 'labels': labels['Labels'], 'text': text['TextDetections']})
